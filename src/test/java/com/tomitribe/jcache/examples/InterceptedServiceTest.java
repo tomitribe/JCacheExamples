@@ -20,9 +20,9 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import com.tomitribe.jcache.examples.application.BookService;
 import com.tomitribe.jcache.examples.entities.Book;
 import com.tomitribe.jcache.examples.interceptor.CacheInterceptor;
-import com.tomitribe.jcache.examples.producers.HazelcastProducer;
+import com.tomitribe.jcache.examples.producers.CacheProducer;
 import com.tomitribe.jcache.examples.producers.ObjectCacheProducer;
-import com.tomitribe.jcache.examples.qualifiers.Hazelcast;
+import com.tomitribe.jcache.examples.qualifiers.CacheImplementation;
 import com.tomitribe.jcache.examples.qualifiers.LocalCacheProvider;
 import com.tomitribe.jcache.examples.qualifiers.ObjectCache;
 import com.tomitribe.jcache.examples.service.InterceptedService;
@@ -78,9 +78,9 @@ public class InterceptedServiceTest extends Assert {
                         CacheInterceptor.class,
                         ObjectCache.class,
                         LocalCacheProvider.class,
-                        Hazelcast.class,
+                        CacheImplementation.class,
                         ObjectCacheProducer.class,
-                        HazelcastProducer.class,
+                        CacheProducer.class,
                         InterceptedService.class)
                 .addAsResource("persistence.xml", "META-INF/persistence.xml")
                 .addAsResource("openejb-jar.xml", "META-INF/openejb-jar.xml")

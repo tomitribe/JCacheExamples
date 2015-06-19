@@ -13,7 +13,7 @@ package com.tomitribe.jcache.examples.producers;
 import com.hazelcast.cache.impl.HazelcastServerCachingProvider;
 import com.hazelcast.config.Config;
 import com.hazelcast.core.HazelcastInstance;
-import com.tomitribe.jcache.examples.qualifiers.Hazelcast;
+import com.tomitribe.jcache.examples.qualifiers.CacheImplementation;
 import com.tomitribe.jcache.examples.qualifiers.LocalCacheProvider;
 
 import javax.cache.CacheManager;
@@ -24,12 +24,12 @@ import javax.inject.Singleton;
 import java.net.URL;
 
 @ApplicationScoped
-public class HazelcastProducer {
+public class CacheProducer {
 
     @Produces
     @Singleton
-    @Hazelcast
-    public HazelcastInstance createHazelcastInstance() {
+    @CacheImplementation
+    public Object createHazelcastInstance() {
 
         final String configFile = "META-INF/hazelcast.xml";
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -45,11 +45,16 @@ public class HazelcastProducer {
     @Produces
     @Singleton
     @LocalCacheProvider
-    public CacheManager createCacheManager(@Hazelcast final HazelcastInstance instance) {
-        return HazelcastServerCachingProvider.createCachingProvider(instance).getCacheManager();
+    public CacheManager createCacheManager(@CacheImplementation final Object instance) {
+
+        if (HazelcastInstance.class.isInstance(instance)) {
+            return HazelcastServerCachingProvider.createCachingProvider(HazelcastInstance.class.cast(instance)).getCacheManager();
+        }
+
+        throw new UnsupportedOperationException("Unknown provider");
     }
 
-    public void close(@Disposes @Hazelcast final HazelcastInstance instance) {
+    public void close(@Disposes @CacheImplementation final HazelcastInstance instance) {
         instance.shutdown();
     }
 }

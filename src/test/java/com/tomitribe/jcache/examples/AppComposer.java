@@ -14,7 +14,7 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import com.tomitribe.jcache.examples.application.BookService;
 import com.tomitribe.jcache.examples.entities.Book;
 import com.tomitribe.jcache.examples.interceptor.CacheInterceptor;
-import com.tomitribe.jcache.examples.producers.HazelcastProducer;
+import com.tomitribe.jcache.examples.producers.CacheProducer;
 import com.tomitribe.jcache.examples.producers.ObjectCacheProducer;
 import com.tomitribe.jcache.examples.service.InterceptedService;
 import com.tomitribe.jcache.examples.service.ServiceApplication;
@@ -52,7 +52,7 @@ public class AppComposer {
             Book.class,
             CacheInterceptor.class,
             ObjectCacheProducer.class,
-            HazelcastProducer.class,
+            CacheProducer.class,
             InterceptedService.class})
     public WebApp app() {
         return new WebApp().contextRoot("test");
