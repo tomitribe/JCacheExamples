@@ -29,17 +29,26 @@ public class CacheProducer {
     @Produces
     @Singleton
     @CacheImplementation
-    public Object createHazelcastInstance() {
+    public Object createCacheInstance() {
 
-        final String configFile = "META-INF/hazelcast.xml";
-        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        final URL location = loader.getResource(configFile);
-        final Config config = new Config();
+        //Quick hack, but simple
+        final String provider = System.getProperty("tomee.cache.provider", "hazelcast");
 
-        config.setConfigurationUrl(location);
-        config.setInstanceName("TomEEInstance");
+        if ("hazelcast".equalsIgnoreCase(provider)) {
+            final String configFile = "META-INF/hazelcast.xml";
+            final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            final URL location = loader.getResource(configFile);
+            final Config config = new Config();
 
-        return com.hazelcast.core.Hazelcast.newHazelcastInstance(config);
+            config.setConfigurationUrl(location);
+            config.setInstanceName("TomEEInstance");
+
+            return com.hazelcast.core.Hazelcast.newHazelcastInstance(config);
+        }else if("ehcache".equalsIgnoreCase(provider)){
+            //TODO - eHCache
+        } //TODO - More....
+
+        throw new UnsupportedOperationException("Unknown provider");
     }
 
     @Produces
