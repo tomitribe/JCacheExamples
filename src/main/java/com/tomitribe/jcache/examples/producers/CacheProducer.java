@@ -10,13 +10,11 @@
  */
 package com.tomitribe.jcache.examples.producers;
 
-import com.hazelcast.cache.impl.HazelcastServerCachingProvider;
-import com.hazelcast.config.Config;
-import com.hazelcast.core.HazelcastInstance;
 import com.tomitribe.jcache.examples.qualifiers.CacheImplementation;
 import com.tomitribe.jcache.examples.qualifiers.LocalCacheProvider;
 
 import javax.cache.CacheManager;
+import javax.cache.Caching;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
@@ -65,15 +63,9 @@ public class CacheProducer {
         final String provider = System.getProperty("tomee.cache.provider", "hazelcast");
 
         if ("hazelcast".equalsIgnoreCase(provider)) {
-            final String configFile = "META-INF/hazelcast.xml";
-            final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            final URL location = loader.getResource(configFile);
-            final Config config = new Config();
-
-            config.setConfigurationUrl(location);
-            config.setInstanceName("TomEEInstance");
-
-            instance = com.hazelcast.core.Hazelcast.newHazelcastInstance(config);
+            return Caching
+                    .getCachingProvider("com.hazelcast.cache.impl.HazelcastServerCachingProvider")
+                    .getCacheManager();
         } else if ("ehcache".equalsIgnoreCase(provider)) {
 
             final URL url = getClass().getResource("/anotherconfigurationname.xml");
@@ -81,9 +73,9 @@ public class CacheProducer {
 
         } //TODO - More....
 
-        if (HazelcastInstance.class.isInstance(instance)) {
-            return HazelcastServerCachingProvider.createCachingProvider(HazelcastInstance.class.cast(instance)).getCacheManager();
-        }
+//        if (HazelcastInstance.class.isInstance(instance)) {
+//            return HazelcastServerCachingProvider.createCachingProvider(HazelcastInstance.class.cast(instance)).getCacheManager();
+//        }
 
         throw new UnsupportedOperationException("Unknown provider");
     }

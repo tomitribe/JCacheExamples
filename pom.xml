@@ -83,7 +83,8 @@
     <dependency>
       <groupId>com.hazelcast</groupId>
       <artifactId>hazelcast-all</artifactId>
-      <version>3.4</version>
+      <version>3.6-SNAPSHOT</version>
+        <scope>compile</scope>
     </dependency>
 
     <!-- Everything eHCache-->
