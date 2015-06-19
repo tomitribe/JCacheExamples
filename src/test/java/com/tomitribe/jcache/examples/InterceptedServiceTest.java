@@ -22,7 +22,6 @@ import com.tomitribe.jcache.examples.entities.Book;
 import com.tomitribe.jcache.examples.interceptor.CacheInterceptor;
 import com.tomitribe.jcache.examples.producers.CacheProducer;
 import com.tomitribe.jcache.examples.producers.ObjectCacheProducer;
-import com.tomitribe.jcache.examples.qualifiers.CacheImplementation;
 import com.tomitribe.jcache.examples.qualifiers.LocalCacheProvider;
 import com.tomitribe.jcache.examples.qualifiers.ObjectCache;
 import com.tomitribe.jcache.examples.service.InterceptedService;
@@ -78,7 +77,6 @@ public class InterceptedServiceTest extends Assert {
                         CacheInterceptor.class,
                         ObjectCache.class,
                         LocalCacheProvider.class,
-                        CacheImplementation.class,
                         ObjectCacheProducer.class,
                         CacheProducer.class,
                         InterceptedService.class)

@@ -1,16 +1,21 @@
-/**
- * Tomitribe Confidential
- * <p/>
- * Copyright(c) Tomitribe Corporation. 2014
- * <p/>
- * The source code for this program is not published or otherwise divested
- * of its trade secrets, irrespective of what has been deposited with the
- * U.S. Copyright Office.
- * <p/>
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ *  contributor license agreements.  See the NOTICE file distributed with
+ *  this work for additional information regarding copyright ownership.
+ *  The ASF licenses this file to You under the Apache License, Version 2.0
+ *  (the "License"); you may not use this file except in compliance with
+ *  the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *   Unless required by applicable law or agreed to in writing, software
+ *   distributed under the License is distributed on an "AS IS" BASIS,
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *   See the License for the specific language governing permissions and
+ *   limitations under the License.
  */
 package com.tomitribe.jcache.examples.producers;
 
-import com.tomitribe.jcache.examples.qualifiers.CacheImplementation;
 import com.tomitribe.jcache.examples.qualifiers.LocalCacheProvider;
 
 import javax.cache.CacheManager;
@@ -24,40 +29,10 @@ import java.net.URL;
 @ApplicationScoped
 public class CacheProducer {
 
-//    @Produces
-//    @Singleton
-//    @CacheImplementation
-//    public Object createCacheInstance() {
-//
-//        //Quick hack, but simple
-//        final String provider = System.getProperty("tomee.cache.provider", "hazelcast");
-//
-//        if ("hazelcast".equalsIgnoreCase(provider)) {
-//            final String configFile = "META-INF/hazelcast.xml";
-//            final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-//            final URL location = loader.getResource(configFile);
-//            final Config config = new Config();
-//
-//            config.setConfigurationUrl(location);
-//            config.setInstanceName("TomEEInstance");
-//
-//            return com.hazelcast.core.Hazelcast.newHazelcastInstance(config);
-//        } else if ("ehcache".equalsIgnoreCase(provider)) {
-//
-//            final URL url = getClass().getResource("/anotherconfigurationname.xml");
-//            // CacheManager manager = CacheManager.newInstance(url);
-//
-//        } //TODO - More....
-//
-//        throw new UnsupportedOperationException("Unknown provider");
-//    }
-
     @Produces
     @Singleton
     @LocalCacheProvider
     public CacheManager createCacheManager() {
-
-        Object instance = null;
 
         //Quick hack, but simple
         final String provider = System.getProperty("tomee.cache.provider", "hazelcast");
@@ -73,14 +48,10 @@ public class CacheProducer {
 
         } //TODO - More....
 
-//        if (HazelcastInstance.class.isInstance(instance)) {
-//            return HazelcastServerCachingProvider.createCachingProvider(HazelcastInstance.class.cast(instance)).getCacheManager();
-//        }
-
         throw new UnsupportedOperationException("Unknown provider");
     }
 
-//    public void close(@Disposes @CacheImplementation final HazelcastInstance instance) {
-//        instance.shutdown();
-//    }
+    public void close(@Disposes @LocalCacheProvider final CacheManager instance) {
+        instance.close();
+    }
 }

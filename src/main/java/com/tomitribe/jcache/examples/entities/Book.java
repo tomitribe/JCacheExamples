@@ -25,7 +25,7 @@ import java.io.Serializable;
 
 @XmlRootElement
 @Entity
-public class Book implements Serializable{
+public class Book implements Serializable {
 
     private int bookId;
     private String bookTitle;
@@ -51,7 +51,7 @@ public class Book implements Serializable{
     @Override
     public String toString() {
         return "Book{" +
-                "bookId=" + getBookId()+
+                "bookId=" + getBookId() +
                 ", bookTitle='" + getBookTitle() + '\'' +
                 '}';
     }
