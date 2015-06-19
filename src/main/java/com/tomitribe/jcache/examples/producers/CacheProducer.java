@@ -44,8 +44,11 @@ public class CacheProducer {
             config.setInstanceName("TomEEInstance");
 
             return com.hazelcast.core.Hazelcast.newHazelcastInstance(config);
-        }else if("ehcache".equalsIgnoreCase(provider)){
-            //TODO - eHCache
+        } else if ("ehcache".equalsIgnoreCase(provider)) {
+
+            final URL url = getClass().getResource("/anotherconfigurationname.xml");
+            // CacheManager manager = CacheManager.newInstance(url);
+
         } //TODO - More....
 
         throw new UnsupportedOperationException("Unknown provider");

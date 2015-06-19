@@ -79,11 +79,18 @@
       <version>1.0-alpha-1</version>
     </dependency>
 
+    <!-- Everything Hazelcast-->
     <dependency>
       <groupId>com.hazelcast</groupId>
       <artifactId>hazelcast-all</artifactId>
       <version>3.4</version>
-      <scope>provided</scope>
+    </dependency>
+
+    <!-- Everything eHCache-->
+    <dependency>
+      <groupId>net.sf.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
+      <version>2.10.0</version>
     </dependency>
 
     <dependency>
