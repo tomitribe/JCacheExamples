@@ -14,10 +14,10 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.tomitribe.agumbrecht.presentation;
+package com.tomitribe.jcache.examples.presentation;
 
-import com.tomitribe.agumbrecht.application.BookService;
-import com.tomitribe.agumbrecht.entities.Book;
+import com.tomitribe.jcache.examples.application.BookService;
+import com.tomitribe.jcache.examples.entities.Book;
 
 import javax.inject.Inject;
 import javax.inject.Named;

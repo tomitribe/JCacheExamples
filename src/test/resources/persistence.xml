@@ -21,7 +21,7 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
     <persistence-unit name="book-pu" transaction-type="JTA">
         <jta-data-source>bookDatabase</jta-data-source>
-        <class>com.tomitribe.agumbrecht.entities.Book</class>
+        <class>com.tomitribe.jcache.examples.entities.Book</class>
         <properties>
             <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
         </properties>

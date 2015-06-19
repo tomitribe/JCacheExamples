@@ -14,19 +14,19 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.tomitribe.agumbrecht;
+package com.tomitribe.jcache.examples;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
-import com.tomitribe.agumbrecht.application.BookService;
-import com.tomitribe.agumbrecht.entities.Book;
-import com.tomitribe.agumbrecht.interceptor.CacheInterceptor;
-import com.tomitribe.agumbrecht.producers.HazelcastProducer;
-import com.tomitribe.agumbrecht.producers.ObjectCacheProducer;
-import com.tomitribe.agumbrecht.qualifiers.Hazelcast;
-import com.tomitribe.agumbrecht.qualifiers.LocalCacheProvider;
-import com.tomitribe.agumbrecht.qualifiers.ObjectCache;
-import com.tomitribe.agumbrecht.service.InterceptedService;
-import com.tomitribe.agumbrecht.service.ServiceApplication;
+import com.tomitribe.jcache.examples.application.BookService;
+import com.tomitribe.jcache.examples.entities.Book;
+import com.tomitribe.jcache.examples.interceptor.CacheInterceptor;
+import com.tomitribe.jcache.examples.producers.HazelcastProducer;
+import com.tomitribe.jcache.examples.producers.ObjectCacheProducer;
+import com.tomitribe.jcache.examples.qualifiers.Hazelcast;
+import com.tomitribe.jcache.examples.qualifiers.LocalCacheProvider;
+import com.tomitribe.jcache.examples.qualifiers.ObjectCache;
+import com.tomitribe.jcache.examples.service.InterceptedService;
+import com.tomitribe.jcache.examples.service.ServiceApplication;
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;

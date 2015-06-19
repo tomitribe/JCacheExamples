@@ -8,7 +8,7 @@
  * U.S. Copyright Office.
  * <p/>
  */
-package com.tomitribe.agumbrecht.qualifiers;
+package com.tomitribe.jcache.examples.qualifiers;
 
 import javax.inject.Qualifier;
 import java.lang.annotation.Retention;
@@ -23,5 +23,5 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Qualifier
 @Retention(RUNTIME)
 @Target({TYPE, METHOD, FIELD, PARAMETER})
-public @interface ObjectCache {
+public @interface LocalCacheProvider {
 }

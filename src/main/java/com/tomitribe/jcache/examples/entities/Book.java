@@ -14,7 +14,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.tomitribe.agumbrecht.entities;
+package com.tomitribe.jcache.examples.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

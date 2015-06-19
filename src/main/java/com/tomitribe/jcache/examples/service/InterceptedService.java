@@ -8,11 +8,11 @@
  * U.S. Copyright Office.
  * <p/>
  */
-package com.tomitribe.agumbrecht.service;
+package com.tomitribe.jcache.examples.service;
 
-import com.tomitribe.agumbrecht.application.BookService;
-import com.tomitribe.agumbrecht.entities.Book;
-import com.tomitribe.agumbrecht.interceptor.CacheInterceptor;
+import com.tomitribe.jcache.examples.application.BookService;
+import com.tomitribe.jcache.examples.entities.Book;
+import com.tomitribe.jcache.examples.interceptor.CacheInterceptor;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;

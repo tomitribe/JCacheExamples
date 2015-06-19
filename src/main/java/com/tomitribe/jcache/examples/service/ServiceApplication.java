@@ -8,7 +8,7 @@
  * U.S. Copyright Office.
  * <p/>
  */
-package com.tomitribe.agumbrecht.service;
+package com.tomitribe.jcache.examples.service;
 
 import javax.ws.rs.ApplicationPath;
 import java.util.Arrays;

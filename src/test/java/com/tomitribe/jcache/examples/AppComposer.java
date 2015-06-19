@@ -8,16 +8,16 @@
  * U.S. Copyright Office.
  * <p/>
  */
-package com.tomitribe.agumbrecht;
+package com.tomitribe.jcache.examples;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
-import com.tomitribe.agumbrecht.application.BookService;
-import com.tomitribe.agumbrecht.entities.Book;
-import com.tomitribe.agumbrecht.interceptor.CacheInterceptor;
-import com.tomitribe.agumbrecht.producers.HazelcastProducer;
-import com.tomitribe.agumbrecht.producers.ObjectCacheProducer;
-import com.tomitribe.agumbrecht.service.InterceptedService;
-import com.tomitribe.agumbrecht.service.ServiceApplication;
+import com.tomitribe.jcache.examples.application.BookService;
+import com.tomitribe.jcache.examples.entities.Book;
+import com.tomitribe.jcache.examples.interceptor.CacheInterceptor;
+import com.tomitribe.jcache.examples.producers.HazelcastProducer;
+import com.tomitribe.jcache.examples.producers.ObjectCacheProducer;
+import com.tomitribe.jcache.examples.service.InterceptedService;
+import com.tomitribe.jcache.examples.service.ServiceApplication;
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.apache.openejb.jee.WebApp;
 import org.apache.openejb.jee.jpa.unit.PersistenceUnit;

@@ -14,10 +14,10 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.tomitribe.agumbrecht.application;
+package com.tomitribe.jcache.examples.application;
 
-import com.tomitribe.agumbrecht.entities.Book;
-import com.tomitribe.agumbrecht.qualifiers.ObjectCache;
+import com.tomitribe.jcache.examples.entities.Book;
+import com.tomitribe.jcache.examples.qualifiers.ObjectCache;
 
 import javax.cache.Cache;
 import javax.ejb.Stateless;

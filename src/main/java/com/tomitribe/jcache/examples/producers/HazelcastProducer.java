@@ -8,13 +8,13 @@
  * U.S. Copyright Office.
  * <p/>
  */
-package com.tomitribe.agumbrecht.producers;
+package com.tomitribe.jcache.examples.producers;
 
 import com.hazelcast.cache.impl.HazelcastServerCachingProvider;
 import com.hazelcast.config.Config;
 import com.hazelcast.core.HazelcastInstance;
-import com.tomitribe.agumbrecht.qualifiers.Hazelcast;
-import com.tomitribe.agumbrecht.qualifiers.LocalCacheProvider;
+import com.tomitribe.jcache.examples.qualifiers.Hazelcast;
+import com.tomitribe.jcache.examples.qualifiers.LocalCacheProvider;
 
 import javax.cache.CacheManager;
 import javax.enterprise.context.ApplicationScoped;

@@ -8,9 +8,9 @@
  * U.S. Copyright Office.
  * <p/>
  */
-package com.tomitribe.agumbrecht.interceptor;
+package com.tomitribe.jcache.examples.interceptor;
 
-import com.tomitribe.agumbrecht.qualifiers.ObjectCache;
+import com.tomitribe.jcache.examples.qualifiers.ObjectCache;
 
 import javax.cache.Cache;
 import javax.inject.Inject;
