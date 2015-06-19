@@ -124,7 +124,7 @@ public class InterceptedServiceTest extends Assert {
         assertEquals("Invalid book name", "War and Peace", book.getBookTitle());
 
         //Get stored version
-        bookService.clear();
+        bookService.clear(id);
         book = getClient().path("api/intercept/" + id).get(Book.class);
 
         assertEquals("Invalid book id", id, book.getBookId());

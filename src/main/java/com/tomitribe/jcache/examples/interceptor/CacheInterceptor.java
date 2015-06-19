@@ -28,13 +28,9 @@ public class CacheInterceptor {
     @AroundInvoke
     public Object cache(final InvocationContext ctx) throws Exception {
 
-        final String name = ctx.getTarget().getClass().getName();
-        final Method method = ctx.getMethod();
         final Object[] parameters = ctx.getParameters();
 
-        final String s = Arrays.toString(parameters);
-
-        final String key = name + ":" + method.getName() + ":" + s;
+        final String key = parameters[0].toString();
 
         Object o = cache.get(key);
 
