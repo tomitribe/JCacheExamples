@@ -26,10 +26,40 @@ import java.net.URL;
 @ApplicationScoped
 public class CacheProducer {
 
+//    @Produces
+//    @Singleton
+//    @CacheImplementation
+//    public Object createCacheInstance() {
+//
+//        //Quick hack, but simple
+//        final String provider = System.getProperty("tomee.cache.provider", "hazelcast");
+//
+//        if ("hazelcast".equalsIgnoreCase(provider)) {
+//            final String configFile = "META-INF/hazelcast.xml";
+//            final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+//            final URL location = loader.getResource(configFile);
+//            final Config config = new Config();
+//
+//            config.setConfigurationUrl(location);
+//            config.setInstanceName("TomEEInstance");
+//
+//            return com.hazelcast.core.Hazelcast.newHazelcastInstance(config);
+//        } else if ("ehcache".equalsIgnoreCase(provider)) {
+//
+//            final URL url = getClass().getResource("/anotherconfigurationname.xml");
+//            // CacheManager manager = CacheManager.newInstance(url);
+//
+//        } //TODO - More....
+//
+//        throw new UnsupportedOperationException("Unknown provider");
+//    }
+
     @Produces
     @Singleton
-    @CacheImplementation
-    public Object createCacheInstance() {
+    @LocalCacheProvider
+    public CacheManager createCacheManager() {
+
+        Object instance = null;
 
         //Quick hack, but simple
         final String provider = System.getProperty("tomee.cache.provider", "hazelcast");
@@ -43,21 +73,13 @@ public class CacheProducer {
             config.setConfigurationUrl(location);
             config.setInstanceName("TomEEInstance");
 
-            return com.hazelcast.core.Hazelcast.newHazelcastInstance(config);
+            instance = com.hazelcast.core.Hazelcast.newHazelcastInstance(config);
         } else if ("ehcache".equalsIgnoreCase(provider)) {
 
             final URL url = getClass().getResource("/anotherconfigurationname.xml");
             // CacheManager manager = CacheManager.newInstance(url);
 
         } //TODO - More....
-
-        throw new UnsupportedOperationException("Unknown provider");
-    }
-
-    @Produces
-    @Singleton
-    @LocalCacheProvider
-    public CacheManager createCacheManager(@CacheImplementation final Object instance) {
 
         if (HazelcastInstance.class.isInstance(instance)) {
             return HazelcastServerCachingProvider.createCachingProvider(HazelcastInstance.class.cast(instance)).getCacheManager();
@@ -66,7 +88,7 @@ public class CacheProducer {
         throw new UnsupportedOperationException("Unknown provider");
     }
 
-    public void close(@Disposes @CacheImplementation final HazelcastInstance instance) {
-        instance.shutdown();
-    }
+//    public void close(@Disposes @CacheImplementation final HazelcastInstance instance) {
+//        instance.shutdown();
+//    }
 }
