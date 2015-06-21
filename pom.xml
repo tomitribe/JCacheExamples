@@ -66,6 +66,8 @@
   </repositories>
 
   <dependencies>
+
+    <!-- Everything JavaEE 6 -->
     <dependency>
       <groupId>org.apache.openejb</groupId>
       <artifactId>javaee-api</artifactId>
@@ -73,6 +75,7 @@
       <scope>provided</scope>
     </dependency>
 
+    <!-- Everything JCache API -->
     <dependency>
       <groupId>org.apache.geronimo.specs</groupId>
       <artifactId>geronimo-jcache_1.0_spec</artifactId>
@@ -83,8 +86,7 @@
     <dependency>
       <groupId>com.hazelcast</groupId>
       <artifactId>hazelcast-all</artifactId>
-      <version>3.6-SNAPSHOT</version>
-        <scope>compile</scope>
+      <version>3.5</version>
     </dependency>
 
     <!-- Everything eHCache-->
@@ -94,17 +96,18 @@
       <version>2.10.0</version>
     </dependency>
 
+    <!-- Complex object mapping -->
     <dependency>
       <groupId>com.fasterxml.jackson.jaxrs</groupId>
       <artifactId>jackson-jaxrs-json-provider</artifactId>
       <version>2.2.4</version>
     </dependency>
 
-    <!-- to test with TomEE and Arquillian -->
+    <!-- Everything to test with TomEE and Arquillian -->
     <dependency>
       <groupId>org.apache.openejb</groupId>
       <artifactId>arquillian-tomee-embedded</artifactId>
-      <version>1.7.2</version>
+      <version>${version.tomee.test}</version>
       <scope>test</scope>
       <!--Current version-->
     </dependency>
@@ -113,6 +116,7 @@
       <artifactId>tomee-embedded</artifactId>
       <version>${version.tomee.test}</version>
     </dependency>
+
     <!--Required for WebServices and RESTful WebServices-->
     <dependency>
       <groupId>org.apache.openejb</groupId>

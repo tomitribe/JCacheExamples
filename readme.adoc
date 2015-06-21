@@ -1,0 +1,156 @@
+== JCache API, CDI, Apache TomEE, Hazelcast and Arquillian - What more could you want?
+
+Well OK maybe a lot more, but these technologies just work so sweet together that we wanted to pull them all together at the http://www.devoxx.co.uk/[DevoxxUK 2015] Hackergarten.
+https://www.jcp.org/en/press/pmo/pmo_profiles/commFocusPMO-vancura[Heather VanCura], a leader of the JCP, clubbed several developers together for some key bashing.
+This is the result. Enjoy!
+
+Bruno Baptista @brunobat_ & Paulo Martins @martinstuga & Andy Gumbrecht @AndyGeeDe, with thanks to Heather VanCura @heathervc & @DevoxxUK
+
+=== JCache API
+This API allows the use of caching methods in an intuitive and transparent manner. You need two things in your https://github.com/tomitribe/JCacheExamples/blob/master/pom.xml[pom.xml]:
+
+1. The API definition, which defines the JCache interfaces.
+[source, xml]
+----
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jcache_1.0_spec</artifactId>
+      <version>1.0-alpha-1</version>
+    </dependency>
+----
+
+2. An implementation of the API, in this case Hazelcast. Of course you can use any https://jcp.org/aboutJava/communityprocess/implementations/jsr107/index.html[compatible provider]
+[source, xml]
+----
+    <dependency>
+      <groupId>com.hazelcast</groupId>
+      <artifactId>hazelcast-all</artifactId>
+      <version>3.5</version>
+    </dependency>
+----
+
+=== Contexts and Dependency Injection - CDI
+Let's face it, there are plenty of really complicated ways of providing access to application scoped resources. So why on earth use them when we have
+something as cool and as simple as CDI! In EE6 we just need to add the https://github.com/tomitribe/JCacheExamples/blob/master/src/main/resources/META-INF/beans.xml[_beans.xml_] file to an applications META-INF directory and BANG! @Inject @Inject @Inject...
+
+https://github.com/tomitribe/JCacheExamples/blob/master/src/main/java/com/tomitribe/jcache/examples/interceptor/CacheInterceptor.java[CacheInterceptor.java]
+[source, java]
+----
+    @Inject
+    @ObjectCache
+    private Cache<String, Object> cache;
+----
+
+So where does that come from? Well, although not strictly true, it needs to be _produced_ by a https://github.com/tomitribe/JCacheExamples/blob/master/src/main/java/com/tomitribe/jcache/examples/producers/CacheProducer.java[@Producer]...
+
+https://github.com/tomitribe/JCacheExamples/blob/master/src/main/java/com/tomitribe/jcache/examples/producers/CacheProducer.java[CacheProducer.java]
+[source, java]
+----
+    @Produces
+    @Singleton
+    @LocalCacheProvider
+    public CacheManager createCacheManager() {
+----
+
+We've done it this way so that you can see the _Magicode_ and make it easy for you to choose your implementation at runtime.
+
+[source, java]
+----
+    return Caching
+        .getCachingProvider("com.hazelcast.cache.impl.HazelcastServerCachingProvider")
+        .getCacheManager();
+----
+
+Note that there is a second https://github.com/tomitribe/JCacheExamples/blob/master/src/main/java/com/tomitribe/jcache/examples/producers/ObjectCacheProducer.java[@Producer]
+in the game here that accepts the _CacheManager_ in it's construction...
+
+https://github.com/tomitribe/JCacheExamples/blob/master/src/main/java/com/tomitribe/jcache/examples/producers/ObjectCacheProducer.java[ObjectCacheProducer.java]
+[source, java]
+----
+    @Produces
+    @Singleton
+    @ObjectCache
+    public Cache<String, Object> createUserCache(@LocalCacheProvider final CacheManager cacheManager) {
+----
+
+Here we qualify it as an _@ObjectCache_ producer because, well because it is an Object cache that is being @Produced. There is nothing to stop you creating
+a strongly typed cache for everything and anything. It's just syntactic sugar, so make it the icing on your cake.
+
+=== Java EE Interceptors - Pollute nothing, gain everything
+
+Now you have seen how you can add the JCache API everywhere, but do you really want to? Is caching important to your actual business logic? Unlikely at best.
+Let's nip this thought in the bud and roll straight on to _Java EE Interceptors_. We have two scenarios, one is to cache and the other is to invalidate the cache.
+
+https://github.com/tomitribe/JCacheExamples/blob/master/src/main/java/com/tomitribe/jcache/examples/interceptor/CacheInterceptor.java[CacheInterceptor.java]
+[source, java]
+----
+    @AroundInvoke
+    public Object cache(final InvocationContext ctx) throws Exception {
+
+        final Object[] parameters = ctx.getParameters();
+
+        final String key = parameters[0].toString();
+
+        Object o = cache.get(key);
+
+        if (null == o) {
+            o = ctx.proceed();
+            cache.put(key, o);
+        }
+
+        return o;
+    }
+----
+
+So you can see, this just creates a super simple key using the first parameter of any method you add this interceptor to. If that's an ID of an @Entity
+then it could be just what you need, but again this is totally up to you to manage. As it happens, our example fits this scenario perfectly - Such a coincidence!
+
+What you should also be able to see is that using this interceptor is actually pretty powerful and keeps your business logic neat and tidy, and completely unaware
+that there is a cache at all. That is exactly the way it should be!
+
+But now we have our _'Something'_ in the cache. What if some other process changes our _'Something'_? Invalidate the cache, but in the same vain as above let's
+not pollute our business logic and use another interceptor.
+
+https://github.com/tomitribe/JCacheExamples/blob/master/src/main/java/com/tomitribe/jcache/examples/interceptor/CacheInvalidator.java[CacheInvalidator.java]
+[source, java]
+----
+    @AroundInvoke
+    public Object cache(final InvocationContext ctx) throws Exception {
+
+        final Object[] parameters = ctx.getParameters();
+
+        final String key = parameters[0].toString();
+
+        final Object proceed = ctx.proceed();
+
+        cache.remove(key);
+
+        return proceed;
+    }
+----
+
+Incredible things from incredible technologies. That's it, go cache _Something_ today! Oh hang on, surely we should prove all this _Magicode_ actually works.
+
+=== Testing Your Magicode with Arquillian
+
+Arquillian compliments all other forms of testing and actually rolls unit, functional and integration testing into one tidy bundle. There is way too much
+here to explain in a simple blog, so pop over to http://arquillian.org/[Arquillian.org] to learn more.
+
+Basically, adding the following @RunWith(Arquillian.class) annotation to your test class will perform some incredible wiring. It will package up your application, fire up a TomEE server,
+deploy the app, run the test against the deployed app, return the results and finally, shuts down the TomEE server.
+
+https://github.com/tomitribe/JCacheExamples/blob/master/src/test/java/com/tomitribe/jcache/examples/InterceptedServiceTest.java[InterceptedServiceTest.java]
+[source, java]
+----
+    @RunWith(Arquillian.class)
+    public class InterceptedServiceTest extends Assert {
+----
+
+The test itself is designed to prove that our complex object is cached, updated and invalidated. We could have put the Invalidation interceptor
+on the update method, but then the test would be less obvious to follow. Give it a try.
+
+=== What Next?
+
+The world is your oyster on this one. Please feel free to use this code based example as a stepping stone to creating your own JCache API enabled project.
+Check out the entire source code for this example project here: https://github.com/tomitribe/JCacheExamples[https://github.com/tomitribe/JCacheExamples],
+and don't forget to have fun!

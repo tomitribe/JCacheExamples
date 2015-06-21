@@ -107,21 +107,22 @@ public class InterceptedServiceTest extends Assert {
 
         final int id = bookService.addBook(book);
 
-        //First call caches stored
+        //First call caches the returned object
         book = getClient().path("api/intercept/" + id).get(Book.class);
 
         assertEquals("Invalid book id", id, book.getBookId());
         assertEquals("Invalid book name", "War and Peace", book.getBookTitle());
 
+        //Update the stored object - Putting the invalidation on this call would be better, but not such a good demo
         bookService.update(id, "Harry met Sally");
 
-        //Get cached version
+        //Get cached version to prove the cache works
         book = getClient().path("api/intercept/" + id).get(Book.class);
 
         assertEquals("Invalid book id", id, book.getBookId());
         assertEquals("Invalid book name", "War and Peace", book.getBookTitle());
 
-        //Get stored version
+        //Invalidate and get stored version to prove it has been updated
         bookService.clear(id);
         book = getClient().path("api/intercept/" + id).get(Book.class);
 
