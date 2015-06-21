@@ -4,7 +4,7 @@ Well OK maybe a lot more, but these technologies just work so sweet together tha
 https://www.jcp.org/en/press/pmo/pmo_profiles/commFocusPMO-vancura[Heather VanCura], a leader of the JCP, clubbed several developers together for some key bashing.
 This is the result. Enjoy!
 
-Bruno Baptista @brunobat_ & Paulo Martins @martinstuga & Andy Gumbrecht @AndyGeeDe, with thanks to Heather VanCura @heathervc & @DevoxxUK
+Bruno Baptista https://twitter.com/brunobat_[@brunobat_] & Paulo Martins https://twitter.com/martinstuga[@martinstuga] & Andy Gumbrecht https://twitter.com/AndyGeeDe[@AndyGeeDe], with thanks to Heather VanCura https://twitter.com/heathervc[@heathervc] & https://twitter.com/DevoxxUK[@DevoxxUK]
 
 === JCache API
 This API allows the use of caching methods in an intuitive and transparent manner. You need two things in your https://github.com/tomitribe/JCacheExamples/blob/master/pom.xml[pom.xml]:
