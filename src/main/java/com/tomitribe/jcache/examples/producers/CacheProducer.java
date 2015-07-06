@@ -24,7 +24,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.inject.Singleton;
-import java.net.URL;
 
 @ApplicationScoped
 public class CacheProducer {
@@ -33,22 +32,9 @@ public class CacheProducer {
     @Singleton
     @LocalCacheProvider
     public CacheManager createCacheManager() {
-
-        //Quick hack, but simple
-        final String provider = System.getProperty("tomee.cache.provider", "hazelcast");
-
-        if ("hazelcast".equalsIgnoreCase(provider)) {
-            return Caching
-                    .getCachingProvider("com.hazelcast.cache.impl.HazelcastServerCachingProvider")
-                    .getCacheManager();
-        } else if ("ehcache".equalsIgnoreCase(provider)) {
-
-            final URL url = getClass().getResource("/anotherconfigurationname.xml");
-            // CacheManager manager = CacheManager.newInstance(url);
-
-        } //TODO - More....
-
-        throw new UnsupportedOperationException("Unknown provider");
+        // property can be extracted to server configuration
+        System.setProperty("hazelcast.jcache.provider.type", "server");
+        return Caching.getCachingProvider().getCacheManager();
     }
 
     public void close(@Disposes @LocalCacheProvider final CacheManager instance) {
